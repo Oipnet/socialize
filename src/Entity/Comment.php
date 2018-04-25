@@ -22,6 +22,13 @@ class Comment
      */
     private $content;
 
+    /**
+     * @var Post
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="medias")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $post;
+
     public function getId()
     {
         return $this->id;

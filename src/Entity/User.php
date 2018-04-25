@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -35,6 +37,44 @@ class User implements UserInterface, \Serializable
      */
     private $email;
 
+    /**
+     * @var Media
+     * @ORM\OneToOne(targetEntity="App\Entity\Media", mappedBy="user")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $avatar;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user")
+     */
+    private $posts;
+
+    /**
+     * Many Users have Many Users.
+     * @var Collection
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="myFriends")
+     */
+    private $friendsWithMe;
+
+    /**
+     * Many Users have many Users.
+     * @var Collection
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithMe")
+     * @ORM\JoinTable(name="friends",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
+     *      )
+     */
+    private $myFriends;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+        $this->myFriends = new ArrayCollection();
+        $this->friendsWithMe = new ArrayCollection();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -59,6 +99,81 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    /**
+     * @return Media
+     */
+    public function getAvatar(): Media
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param Media $avatar
+     * @return User
+     */
+    public function setAvatar(Media $avatar): User
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @param Collection $posts
+     * @return User
+     */
+    public function setPosts(Collection $posts): User
+    {
+        $this->posts = $posts;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFriendsWithMe()
+    {
+        return $this->friendsWithMe;
+    }
+
+    /**
+     * @param mixed $friendsWithMe
+     * @return User
+     */
+    public function setFriendsWithMe($friendsWithMe): User
+    {
+        $this->friendsWithMe = $friendsWithMe;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMyFriends()
+    {
+        return $this->myFriends;
+    }
+
+    /**
+     * @param mixed $myFriends
+     * @return User
+     */
+    public function setMyFriends($myFriends): User
+    {
+        $this->myFriends = $myFriends;
+
+        return $this;
+    }
 
     /**
      * Returns the roles granted to the user.

@@ -28,6 +28,19 @@ class Media
      */
     private $path;
 
+    /**
+     * @var User
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="avatar")
+     */
+    private $user;
+
+    /**
+     * @var Post
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="medias")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $post;
+
     public function getId()
     {
         return $this->id;
@@ -67,6 +80,44 @@ class Media
     public function setPath(string $path): Media
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     * @return Media
+     */
+    public function setUser(User $user): Media
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Post
+     */
+    public function getPost(): Post
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param Post $post
+     * @return Media
+     */
+    public function setPost(Post $post): Media
+    {
+        $this->post = $post;
 
         return $this;
     }
