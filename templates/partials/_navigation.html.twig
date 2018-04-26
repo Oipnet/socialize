@@ -1,0 +1,12 @@
+<nav>
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li>
+            <a href="{{ path('login') }}">Se connecter</a>
+        </li>
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li>
+            <a href="{{ path('logout') }}">Se deconnecter</a>
+        </li>
+    {% endif %}
+</nav>
