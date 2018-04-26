@@ -177,6 +177,14 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
+    public function addFriend(User $user)
+    {
+        $this->myFriends->add($user);
+        $user->myFriends->add($this);
+
+        return $this;
+    }
+
     /**
      * @return mixed
      */

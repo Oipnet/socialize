@@ -24,8 +24,15 @@ class AccountController
      */
     public function account(UserInterface $user)
     {
-        return new Response($this->twig->render('account/index.html.twig', [
-            'controller_name' => 'AccountController',
-        ]));
+        $posts = [];
+        foreach ($user->getMyFriends() as $friend) {
+            foreach ($friend->getPosts() as $post) {
+                $posts[] = $post;
+            }
+        }
+
+        return new Response(
+            $this->twig->render('account/index.html.twig', compact('user', 'posts'))
+        );
     }
 }
