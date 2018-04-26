@@ -1,6 +1,9 @@
 security:
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        App\Entity\User:
+            algorithm: bcrypt
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
@@ -9,12 +12,18 @@ security:
                   user:
                       password: password
                       roles: 'ROLE_USER'
+        db_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            provider: db_provider
 
             # activate different ways to authenticate
 

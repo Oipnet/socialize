@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Environment;
 
 class AccountController
@@ -22,7 +22,7 @@ class AccountController
     /**
      * @Route("/account", name="account")
      */
-    public function account()
+    public function account(UserInterface $user)
     {
         return new Response($this->twig->render('account/index.html.twig', [
             'controller_name' => 'AccountController',
