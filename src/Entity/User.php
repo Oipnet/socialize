@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @ORM\Table(name="app_user")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface, \Serializable
@@ -96,6 +97,26 @@ class User implements UserInterface, \Serializable
     {
         $this->email = $email;
 
+        return $this;
+    }
+
+    /**
+     * @param string $username
+     * @return User
+     */
+    public function setUsername(string $username): User
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    /**
+     * @param string $password
+     * @return User
+     */
+    public function setPassword(string $password): User
+    {
+        $this->password = $password;
         return $this;
     }
 
@@ -252,6 +273,7 @@ class User implements UserInterface, \Serializable
         return serialize([
            $this->id,
            $this->username,
+           $this->password,
            $this->email
         ]);
     }
@@ -267,6 +289,6 @@ class User implements UserInterface, \Serializable
      */
     public function unserialize($serialized)
     {
-        list($this->id, $this->username, $this->email) = unserialize($serialized);
+        list($this->id, $this->username, $this->password, $this->email) = unserialize($serialized);
     }
 }
