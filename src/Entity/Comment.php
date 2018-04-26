@@ -24,7 +24,7 @@ class Comment
 
     /**
      * @var Post
-     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="medias")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
      * @ORM\JoinColumn(nullable=true)
      */
     private $post;

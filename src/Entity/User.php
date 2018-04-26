@@ -47,21 +47,21 @@ class User implements UserInterface, \Serializable
 
     /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user", fetch="EAGER")
      */
     private $posts;
 
     /**
      * Many Users have Many Users.
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="myFriends")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="myFriends", fetch="LAZY")
      */
     private $friendsWithMe;
 
     /**
      * Many Users have many Users.
      * @var Collection
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithMe")
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="friendsWithMe", fetch="LAZY")
      * @ORM\JoinTable(name="friends",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
